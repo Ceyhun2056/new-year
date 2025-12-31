@@ -53,6 +53,15 @@
         z-index: 0;
       }
 
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.4) 100%);
+        pointer-events: none;
+        z-index: 10;
+      }
+
       .scene {
         position: relative;
         text-align: center;
@@ -101,15 +110,21 @@
         -webkit-background-clip: text;
         color: transparent;
         background-size: 300% 300%;
-        animation: confettiShift 3s ease-in-out infinite, digitBounce 2s ease-in-out infinite, digitGlow 1.5s ease-in-out infinite;
+        animation: 
+          digitEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+          confettiShift 3s ease-in-out infinite,
+          digitBounce 2s ease-in-out 1s infinite,
+          digitGlow 1.5s ease-in-out 1s infinite;
         text-shadow: none;
         filter: drop-shadow(0 0 8px currentColor);
+        opacity: 0;
+        transform: translateY(50px) scale(0.3) rotateX(90deg);
       }
 
-      .year-digit:nth-child(1) { animation-delay: 0s, 0s, 0s; }
-      .year-digit:nth-child(2) { animation-delay: 0s, 0.2s, 0.3s; }
-      .year-digit:nth-child(3) { animation-delay: 0s, 0.4s, 0.6s; }
-      .year-digit:nth-child(4) { animation-delay: 0s, 0.6s, 0.9s; }
+      .year-digit:nth-child(1) { animation-delay: 0.2s, 0s, 1.2s, 1.2s; }
+      .year-digit:nth-child(2) { animation-delay: 0.4s, 0s, 1.4s, 1.5s; }
+      .year-digit:nth-child(3) { animation-delay: 0.6s, 0s, 1.6s, 1.8s; }
+      .year-digit:nth-child(4) { animation-delay: 0.8s, 0s, 1.8s, 2.1s; }
 
       .year-digit:nth-child(1) {
         background-image: linear-gradient(135deg, #00bfff, #1e90ff, #00bfff, #87ceeb);
@@ -133,6 +148,26 @@
         50% { background-position: 100% 50%; }
       }
 
+      @keyframes digitEntrance {
+        0% {
+          opacity: 0;
+          transform: translateY(50px) scale(0.3) rotateX(90deg);
+          filter: drop-shadow(0 0 0 transparent);
+        }
+        50% {
+          opacity: 0.8;
+          transform: translateY(-10px) scale(1.15) rotateX(-10deg);
+        }
+        75% {
+          transform: translateY(5px) scale(0.95) rotateX(5deg);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1) rotateX(0deg);
+          filter: drop-shadow(0 0 12px currentColor);
+        }
+      }
+
       @keyframes digitBounce {
         0%, 100% { transform: translateY(0) scale(1); }
         25% { transform: translateY(-8px) scale(1.05); }
@@ -150,12 +185,14 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 1.6rem 3rem 2.1rem;
-        border-radius: 2rem;
-        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        background: none;
         box-shadow: none;
         backdrop-filter: none;
         overflow: visible;
+        border: none;
+        outline: none;
       }
 
       .tree {
@@ -164,12 +201,18 @@
         height: 24rem;
         display: flex;
         justify-content: center;
+        border: none;
+        outline: none;
+        background: none;
       }
 
       .tree__outline {
         position: relative;
         width: 100%;
         height: 100%;
+        border: none;
+        outline: none;
+        overflow: visible;
       }
       .tree__path {
         fill: none;
@@ -177,17 +220,18 @@
         stroke-width: 8.5;
         stroke-linecap: round;
         stroke-linejoin: round;
-        filter: drop-shadow(0 0 18px var(--neon-glow));
+        filter: drop-shadow(0 0 18px var(--neon-glow)) drop-shadow(0 0 35px var(--neon-glow));
         stroke-dasharray: 1800;
         stroke-dashoffset: 1800;
-        animation: draw 5s ease forwards;
+        animation: draw 5s ease forwards, neonPulse 3s ease-in-out 5s infinite;
       }
 
       .tree__path--glow {
         stroke: rgba(255, 255, 255, 0.5);
-        stroke-width: 14;
-        filter: blur(4px);
-        opacity: 0.4;
+        stroke-width: 16;
+        filter: blur(6px);
+        opacity: 0.5;
+        animation: draw 5s ease forwards, glowPulse 3s ease-in-out 5s infinite;
       }
 
       .tree__swirl {
@@ -199,10 +243,34 @@
         top: -1.4rem;
         width: 3.3rem;
         height: 3.3rem;
-        background: radial-gradient(circle, #fff9dd 45%, rgba(255, 255, 255, 0));
+        background: radial-gradient(circle, #fffef5 30%, #fff9dd 60%, rgba(255, 255, 255, 0));
         clip-path: polygon(50% 0%, 61% 38%, 98% 38%, 69% 58%, 80% 94%, 50% 72%, 20% 94%, 31% 58%, 2% 38%, 39% 38%);
-        animation: twinkle 2s ease-in-out infinite;
-        box-shadow: 0 0 45px rgba(247, 231, 169, 0.7);
+        animation: twinkle 2s ease-in-out infinite, starGlow 2.5s ease-in-out infinite;
+        box-shadow: 0 0 45px rgba(247, 231, 169, 0.8), 0 0 80px rgba(247, 231, 169, 0.4), 0 0 120px rgba(255, 215, 0, 0.2);
+      }
+
+      .tree__star::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150%;
+        height: 150%;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(circle, rgba(255, 250, 220, 0.6) 0%, transparent 60%);
+        animation: starRays 3s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      .star-sparkle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #fff, 0 0 15px rgba(255, 215, 0, 0.8);
+        animation: sparkleFloat 2s ease-in-out infinite;
+        pointer-events: none;
       }
 
       .tree__sparkles {
@@ -226,11 +294,25 @@
         bottom: 0.6rem;
         left: 50%;
         transform: translateX(-50%);
-        width: 10rem;
-        height: 2.4rem;
-        background: radial-gradient(circle, rgba(83, 255, 149, 0.4), transparent 70%);
-        filter: blur(3px);
-        opacity: 0.8;
+        width: 16rem;
+        height: 4rem;
+        background: radial-gradient(ellipse at center, rgba(83, 255, 149, 0.5) 0%, rgba(83, 255, 149, 0.2) 40%, transparent 70%);
+        filter: blur(8px);
+        opacity: 0.9;
+        animation: haloBreath 4s ease-in-out infinite;
+      }
+
+      .tree__ambient-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120%;
+        height: 120%;
+        background: radial-gradient(ellipse at center, rgba(83, 255, 149, 0.08) 0%, transparent 50%);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: ambientPulse 5s ease-in-out infinite;
       }
 
       .snow {
@@ -268,12 +350,31 @@
       .snowflake {
         position: absolute;
         top: -10px;
-        width: 6px;
-        height: 6px;
         border-radius: 50%;
         background: var(--snow);
-        opacity: 0.85;
         animation: fall linear infinite;
+      }
+
+      .snowflake--near {
+        width: 5px;
+        height: 5px;
+        opacity: 0.95;
+        filter: blur(0px);
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
+      }
+
+      .snowflake--mid {
+        width: 3px;
+        height: 3px;
+        opacity: 0.7;
+        filter: blur(0.5px);
+      }
+
+      .snowflake--far {
+        width: 2px;
+        height: 2px;
+        opacity: 0.4;
+        filter: blur(1px);
       }
 
       @keyframes draw {
@@ -321,6 +422,67 @@
         }
       }
 
+      @keyframes neonPulse {
+        0%, 100% {
+          filter: drop-shadow(0 0 18px var(--neon-glow)) drop-shadow(0 0 35px var(--neon-glow));
+        }
+        50% {
+          filter: drop-shadow(0 0 25px var(--neon-glow)) drop-shadow(0 0 50px var(--neon-glow)) drop-shadow(0 0 70px rgba(83, 255, 149, 0.3));
+        }
+      }
+
+      @keyframes glowPulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 0.7; }
+      }
+
+      @keyframes starGlow {
+        0%, 100% {
+          box-shadow: 0 0 45px rgba(247, 231, 169, 0.8), 0 0 80px rgba(247, 231, 169, 0.4), 0 0 120px rgba(255, 215, 0, 0.2);
+        }
+        50% {
+          box-shadow: 0 0 60px rgba(247, 231, 169, 1), 0 0 100px rgba(247, 231, 169, 0.6), 0 0 150px rgba(255, 215, 0, 0.35);
+        }
+      }
+
+      @keyframes starRays {
+        0%, 100% {
+          transform: translate(-50%, -50%) scale(1) rotate(0deg);
+          opacity: 0.6;
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.2) rotate(15deg);
+          opacity: 0.9;
+        }
+      }
+
+      @keyframes sparkleFloat {
+        0%, 100% {
+          transform: translate(0, 0) scale(0.8);
+          opacity: 0.4;
+        }
+        50% {
+          transform: translate(var(--float-x, 3px), var(--float-y, -5px)) scale(1.2);
+          opacity: 1;
+        }
+      }
+
+      @keyframes haloBreath {
+        0%, 100% {
+          transform: translateX(-50%) scale(1);
+          opacity: 0.9;
+        }
+        50% {
+          transform: translateX(-50%) scale(1.15);
+          opacity: 1;
+        }
+      }
+
+      @keyframes ambientPulse {
+        0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+        50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.05); }
+      }
+
       @media (max-width: 600px) {
         h1 {
           letter-spacing: 0.08em;
@@ -346,7 +508,14 @@
       </div>
       <div class="tree-wrapper">
         <div class="tree">
-          <div class="tree__star"></div>
+          <div class="tree__ambient-glow"></div>
+          <div class="tree__star">
+            <span class="star-sparkle" style="top: -8px; left: 50%; --float-x: 2px; --float-y: -6px;"></span>
+            <span class="star-sparkle" style="top: 50%; left: -8px; --float-x: -5px; --float-y: 2px; animation-delay: 0.3s;"></span>
+            <span class="star-sparkle" style="top: 50%; right: -8px; --float-x: 5px; --float-y: -2px; animation-delay: 0.6s;"></span>
+            <span class="star-sparkle" style="bottom: -6px; left: 30%; --float-x: -3px; --float-y: 4px; animation-delay: 0.9s;"></span>
+            <span class="star-sparkle" style="bottom: -6px; right: 30%; --float-x: 3px; --float-y: 5px; animation-delay: 1.2s;"></span>
+          </div>
           <svg class="tree__outline" viewBox="0 0 240 280" aria-hidden="true">
             <path
               class="tree__path tree__path--glow"
@@ -394,18 +563,24 @@
         sparklesLayer.appendChild(sparkle);
       });
 
-      const flakes = 110;
-      for (let i = 0; i < flakes; i += 1) {
-        const flake = document.createElement('span');
-        flake.className = 'snowflake';
-        const size = Math.random() * 4 + 2;
-        flake.style.width = `${size}px`;
-        flake.style.height = `${size}px`;
-        flake.style.left = `${Math.random() * 100}%`;
-        flake.style.animationDuration = `${Math.random() * 6 + 4}s`;
-        flake.style.animationDelay = `${Math.random() * 5}s`;
-        snowLayer.appendChild(flake);
-      }
+      // Create layered snowflakes with depth
+      const snowLayers = [
+        { count: 25, class: 'snowflake--near', durationRange: [4, 6], sway: 30 },
+        { count: 50, class: 'snowflake--mid', durationRange: [6, 10], sway: 20 },
+        { count: 60, class: 'snowflake--far', durationRange: [10, 16], sway: 10 }
+      ];
+
+      snowLayers.forEach(layer => {
+        for (let i = 0; i < layer.count; i += 1) {
+          const flake = document.createElement('span');
+          flake.className = `snowflake ${layer.class}`;
+          flake.style.left = `${Math.random() * 100}%`;
+          const duration = Math.random() * (layer.durationRange[1] - layer.durationRange[0]) + layer.durationRange[0];
+          flake.style.animationDuration = `${duration}s`;
+          flake.style.animationDelay = `${Math.random() * 8}s`;
+          snowLayer.appendChild(flake);
+        }
+      });
 
       const fireworkColors = ['#ffd479', '#ff9aa2', '#c5a3ff', '#7dd3fc', '#ffffff'];
 
