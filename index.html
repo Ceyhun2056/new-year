@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy New Year</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Space+Grotesk:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-top: #020c1b;
+        --bg-bottom: #041a2c;
+        --sky-glow: rgba(82, 193, 245, 0.2);
+        --snow: rgba(255, 255, 255, 0.9);
+        --gold: #f7e7a9;
+        --neon-green: #53ff95;
+        --neon-glow: rgba(83, 255, 149, 0.45);
+      }
+
+      html {
+        height: 100%;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        font-family: "Space Grotesk", sans-serif;
+        background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+        color: #fdfdfd;
+        overflow-x: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem 1.5rem;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 20% 20%, var(--sky-glow), transparent 50%),
+          radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.08), transparent 45%);
+        z-index: 0;
+      }
+
+      .scene {
+        position: relative;
+        text-align: center;
+        width: min(90vw, 640px);
+        z-index: 1;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.8rem, 5vw, 4.5rem);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 0;
+        color: var(--gold);
+        text-shadow: 0 0 25px rgba(247, 231, 169, 0.45);
+      }
+
+      .subline {
+        font-size: clamp(1rem, 1.6vw, 1.25rem);
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .year-display {
+        position: fixed;
+        right: 3rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.3rem;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 700;
+        z-index: 1;
+      }
+
+      .year-digit {
+        position: relative;
+        display: inline-block;
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        background-size: 300% 300%;
+        animation: confettiShift 3s ease-in-out infinite, digitBounce 2s ease-in-out infinite, digitGlow 1.5s ease-in-out infinite;
+        text-shadow: none;
+        filter: drop-shadow(0 0 8px currentColor);
+      }
+
+      .year-digit:nth-child(1) { animation-delay: 0s, 0s, 0s; }
+      .year-digit:nth-child(2) { animation-delay: 0s, 0.2s, 0.3s; }
+      .year-digit:nth-child(3) { animation-delay: 0s, 0.4s, 0.6s; }
+      .year-digit:nth-child(4) { animation-delay: 0s, 0.6s, 0.9s; }
+
+      .year-digit:nth-child(1) {
+        background-image: linear-gradient(135deg, #00bfff, #1e90ff, #00bfff, #87ceeb);
+        filter: drop-shadow(0 0 12px rgba(30, 144, 255, 0.6));
+      }
+      .year-digit:nth-child(2) {
+        background-image: linear-gradient(135deg, #ffd700, #ffa500, #ff8c00, #ffd700);
+        filter: drop-shadow(0 0 12px rgba(255, 165, 0, 0.6));
+      }
+      .year-digit:nth-child(3) {
+        background-image: linear-gradient(135deg, #32cd32, #00ff00, #7fff00, #32cd32);
+        filter: drop-shadow(0 0 12px rgba(50, 205, 50, 0.6));
+      }
+      .year-digit:nth-child(4) {
+        background-image: linear-gradient(135deg, #ff1493, #ff69b4, #ff6347, #ff1493);
+        filter: drop-shadow(0 0 12px rgba(255, 20, 147, 0.6));
+      }
+
+      @keyframes confettiShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+
+      @keyframes digitBounce {
+        0%, 100% { transform: translateY(0) scale(1); }
+        25% { transform: translateY(-8px) scale(1.05); }
+        50% { transform: translateY(0) scale(1); }
+        75% { transform: translateY(-4px) scale(1.02); }
+      }
+
+      @keyframes digitGlow {
+        0%, 100% { filter: drop-shadow(0 0 12px currentColor); }
+        50% { filter: drop-shadow(0 0 25px currentColor) drop-shadow(0 0 40px currentColor); }
+      }
+
+      .tree-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.6rem 3rem 2.1rem;
+        border-radius: 2rem;
+        background: transparent;
+        box-shadow: none;
+        backdrop-filter: none;
+        overflow: visible;
+      }
+
+      .tree {
+        position: relative;
+        width: min(62vw, 22rem);
+        height: 24rem;
+        display: flex;
+        justify-content: center;
+      }
+
+      .tree__outline {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .tree__path {
+        fill: none;
+        stroke: var(--neon-green);
+        stroke-width: 8.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 0 18px var(--neon-glow));
+        stroke-dasharray: 1800;
+        stroke-dashoffset: 1800;
+        animation: draw 5s ease forwards;
+      }
+
+      .tree__path--glow {
+        stroke: rgba(255, 255, 255, 0.5);
+        stroke-width: 14;
+        filter: blur(4px);
+        opacity: 0.4;
+      }
+
+      .tree__swirl {
+        display: none;
+      }
+
+      .tree__star {
+        position: absolute;
+        top: -1.4rem;
+        width: 3.3rem;
+        height: 3.3rem;
+        background: radial-gradient(circle, #fff9dd 45%, rgba(255, 255, 255, 0));
+        clip-path: polygon(50% 0%, 61% 38%, 98% 38%, 69% 58%, 80% 94%, 50% 72%, 20% 94%, 31% 58%, 2% 38%, 39% 38%);
+        animation: twinkle 2s ease-in-out infinite;
+        box-shadow: 0 0 45px rgba(247, 231, 169, 0.7);
+      }
+
+      .tree__sparkles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .tree__sparkles span {
+        position: absolute;
+        width: var(--sparkle-size, 0.45rem);
+        height: var(--sparkle-size, 0.45rem);
+        background: radial-gradient(circle, #fff, rgba(255, 255, 255, 0));
+        border-radius: 50%;
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.75);
+        animation: shimmer 2.6s ease-in-out infinite;
+      }
+
+      .tree__halo {
+        position: absolute;
+        bottom: 0.6rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 10rem;
+        height: 2.4rem;
+        background: radial-gradient(circle, rgba(83, 255, 149, 0.4), transparent 70%);
+        filter: blur(3px);
+        opacity: 0.8;
+      }
+
+      .snow {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        z-index: 2;
+      }
+
+      .fireworks {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        z-index: 3;
+      }
+
+      .firework {
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translate(-50%, -50%);
+      }
+
+      .firework__particle {
+        position: absolute;
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 50%;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+        animation: burst 900ms ease-out forwards;
+      }
+
+      .snowflake {
+        position: absolute;
+        top: -10px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--snow);
+        opacity: 0.85;
+        animation: fall linear infinite;
+      }
+
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh);
+        }
+      }
+
+      @keyframes burst {
+        0% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(0.9);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px))) scale(0.2);
+        }
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1) rotate(4deg);
+        }
+      }
+
+      @keyframes shimmer {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: scale(0.8);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.4);
+        }
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          letter-spacing: 0.08em;
+        }
+        .subline {
+          letter-spacing: 0.12em;
+        }
+        .tree-wrapper {
+          padding: 1.2rem 1.6rem 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scene">
+      <h1>Happy New Year!</h1>
+      <p class="subline">May your brightest wishes come true</p>
+      <div class="year-display" aria-label="2026">
+        <span class="year-digit">2</span>
+        <span class="year-digit">0</span>
+        <span class="year-digit">2</span>
+        <span class="year-digit">6</span>
+      </div>
+      <div class="tree-wrapper">
+        <div class="tree">
+          <div class="tree__star"></div>
+          <svg class="tree__outline" viewBox="0 0 240 280" aria-hidden="true">
+            <path
+              class="tree__path tree__path--glow"
+              d="M120 18 L120 24 C116 30 100 42 80 52 C92 52 100 50 108 47 C100 60 75 78 55 92 C72 91 88 86 102 80 C90 98 60 120 38 140 C58 137 82 128 102 116 C88 138 50 165 25 190 C52 184 85 170 110 152 L110 195 C110 200 107 203 100 206 C88 211 75 215 68 217 C85 216 102 211 120 205 C138 211 155 216 172 217 C165 215 152 211 140 206 C133 203 130 200 130 195 L130 152 C155 170 188 184 215 190 C190 165 152 138 138 116 C158 128 182 137 202 140 C180 120 150 98 138 80 C152 86 168 91 185 92 C165 78 140 60 132 47 C140 50 148 52 160 52 C140 42 124 30 120 24 L120 18"
+            ></path>
+            <path
+              class="tree__path"
+              d="M120 18 L120 24 C116 30 100 42 80 52 C92 52 100 50 108 47 C100 60 75 78 55 92 C72 91 88 86 102 80 C90 98 60 120 38 140 C58 137 82 128 102 116 C88 138 50 165 25 190 C52 184 85 170 110 152 L110 195 C110 200 107 203 100 206 C88 211 75 215 68 217 C85 216 102 211 120 205 C138 211 155 216 172 217 C165 215 152 211 140 206 C133 203 130 200 130 195 L130 152 C155 170 188 184 215 190 C190 165 152 138 138 116 C158 128 182 137 202 140 C180 120 150 98 138 80 C152 86 168 91 185 92 C165 78 140 60 132 47 C140 50 148 52 160 52 C140 42 124 30 120 24 L120 18"
+            ></path>
+          </svg>
+          <div class="tree__sparkles" aria-hidden="true"></div>
+          <div class="tree__halo" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="snow" aria-hidden="true"></div>
+    <div class="fireworks" aria-hidden="true"></div>
+
+    <script>
+      const sparklesLayer = document.querySelector('.tree__sparkles');
+      const snowLayer = document.querySelector('.snow');
+      const fireworksLayer = document.querySelector('.fireworks');
+
+      const sparklePositions = [
+        { top: '8%', left: '52%', size: 0.45 },
+        { top: '14%', left: '44%', size: 0.4 },
+        { top: '20%', left: '62%', size: 0.55 },
+        { top: '28%', left: '38%', size: 0.45 },
+        { top: '36%', left: '66%', size: 0.55 },
+        { top: '45%', left: '33%', size: 0.45 },
+        { top: '53%', left: '61%', size: 0.5 },
+        { top: '63%', left: '35%', size: 0.45 },
+        { top: '71%', left: '58%', size: 0.5 },
+        { top: '80%', left: '40%', size: 0.45 },
+        { top: '88%', left: '55%', size: 0.4 }
+      ];
+
+      sparklePositions.forEach((pos, index) => {
+        const sparkle = document.createElement('span');
+        sparkle.style.top = pos.top;
+        sparkle.style.left = pos.left;
+        sparkle.style.setProperty('--sparkle-size', `${pos.size}rem`);
+        sparkle.style.animationDelay = `${index * 0.35}s`;
+        sparklesLayer.appendChild(sparkle);
+      });
+
+      const flakes = 110;
+      for (let i = 0; i < flakes; i += 1) {
+        const flake = document.createElement('span');
+        flake.className = 'snowflake';
+        const size = Math.random() * 4 + 2;
+        flake.style.width = `${size}px`;
+        flake.style.height = `${size}px`;
+        flake.style.left = `${Math.random() * 100}%`;
+        flake.style.animationDuration = `${Math.random() * 6 + 4}s`;
+        flake.style.animationDelay = `${Math.random() * 5}s`;
+        snowLayer.appendChild(flake);
+      }
+
+      const fireworkColors = ['#ffd479', '#ff9aa2', '#c5a3ff', '#7dd3fc', '#ffffff'];
+
+      document.addEventListener('click', event => {
+        createFirework(event.clientX, event.clientY);
+      });
+
+      function createFirework(x, y) {
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+        firework.style.left = `${x}px`;
+        firework.style.top = `${y}px`;
+
+        const particles = 14;
+        for (let i = 0; i < particles; i += 1) {
+          const particle = document.createElement('span');
+          particle.className = 'firework__particle';
+          const angle = (Math.PI * 2 * i) / particles + Math.random() * 0.4;
+          const distance = Math.random() * 90 + 40;
+          particle.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
+          particle.style.setProperty('--dy', `${Math.sin(angle) * distance}px`);
+          const color = fireworkColors[i % fireworkColors.length];
+          particle.style.background = color;
+          particle.style.boxShadow = `0 0 12px ${color}`;
+          particle.style.animationDelay = `${Math.random() * 0.15}s`;
+          firework.appendChild(particle);
+        }
+
+        fireworksLayer.appendChild(firework);
+        setTimeout(() => firework.remove(), 1200);
+      }
+    </script>
+  </body>
+</html>
